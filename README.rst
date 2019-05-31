@@ -12,7 +12,6 @@ To display the current RCT status for a virtual disk::
     rct --auth-key swordfish \
     --base-url https://hypervhost:6677 \
     --remote-vhd-path "C:\VHDS\mydisk.vhdx" \
-    --local-disk-path mydisk.raw \
     --show-rct-info \
     --cert-path C:\path\to\cert.pem
 
@@ -21,7 +20,6 @@ To enable RCT for a virtual disk::
     rct --auth-key swordfish \
     --base-url https://hypervhost:6677 \
     --remote-vhd-path "C:\VHDS\mydisk.vhdx" \
-    --local-disk-path mydisk.raw \
     --enable-rct \
     --cert-path C:\path\to\cert.pem
 
@@ -30,7 +28,6 @@ To disable RCT for a virtual disk::
     rct --auth-key swordfish \
     --base-url https://hypervhost:6677 \
     --remote-vhd-path "C:\VHDS\mydisk.vhdx" \
-    --local-disk-path mydisk.raw \
     --disable-rct \
     --cert-path C:\path\to\cert.pem
 
