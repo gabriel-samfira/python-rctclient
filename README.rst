@@ -43,8 +43,7 @@ To download the changed sectors since a given RCT ID into a local RAW disk
 
 The RCT ID is optional, if not provided the entire disk content is retrieved.
 The local disk path contains the data obtained from the RCT service, in RAW
-format (it can be converted to other formats with
-[qemu-img](https://cloudbase.it/qemu-img-windows/) if needed).
+format (it can be converted to other formats with e.g. qemu-img if needed).
 
 The certificate path is needed to verify the service's TLS identity, if omitted
 the verification is disabled.
