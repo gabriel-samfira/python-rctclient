@@ -100,7 +100,7 @@ def get_disk_content(base_url, auth_key, disk_path, out_file, ranges, verify):
 
 
 def download_disk(base_url, auth_key, disk_path, rct_id, out_file,
-                  max_bytes_per_request, verify):
+                  max_bytes_per_request, verify, progress_cb=None):
     disk_info = get_disk_info(
         base_url, auth_key, disk_path, verify=verify)
     LOG.info("Virtual disk info: %s" % disk_info)
@@ -125,6 +125,8 @@ def download_disk(base_url, auth_key, disk_path, rct_id, out_file,
 
     out_file.truncate(virtual_disk_size)
     tot_size = 0
+    total_transferred = 0
+    total_length = sum([change["length"] for change in disk_changes])
     ranges = []
     for i, disk_change in enumerate(disk_changes):
         LOG.info("Requesting disk data %d/%d. Offset: %d, length: %d" %
@@ -149,6 +151,9 @@ def download_disk(base_url, auth_key, disk_path, rct_id, out_file,
             if get_data:
                 get_disk_content(base_url, auth_key, disk_path, out_file,
                                  ranges, verify=verify)
+                total_transferred += tot_size
+                if progress_cb is not None:
+                    progress_cb(total_transferred, total_length)
                 ranges = []
                 tot_size = 0
 
@@ -163,3 +168,6 @@ def download_disk(base_url, auth_key, disk_path, rct_id, out_file,
     if ranges:
         get_disk_content(base_url, auth_key, disk_path, out_file, ranges,
                          verify=verify)
+        total_transferred += sum([d["length"] for d in ranges])
+        if progress_cb is not None:
+            progress_cb(total_transferred, total_length)
