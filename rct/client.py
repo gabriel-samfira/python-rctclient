@@ -18,6 +18,8 @@ import requests
 
 LOG = logging
 
+CHUNK_SIZE = 10 * 1024 * 1024
+
 
 def get_disk_info(base_url, auth_key, disk_path, verify):
     url = "%s/vdisk/%s/info" % (base_url, disk_path)
@@ -68,7 +70,7 @@ def get_disk_content(base_url, auth_key, disk_path, out_file, ranges, verify):
         out_file.seek(current_range["offset"])
         total_bytes_written = 0
 
-        for chunk in r.iter_content(chunk_size=8192):
+        for chunk in r.iter_content(chunk_size=CHUNK_SIZE):
             while True:
                 # The loop is needed in case the chunk includes data from
                 # multiple ranges
